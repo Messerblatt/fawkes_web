@@ -1,0 +1,15 @@
+[Unit]
+Description=Fawkes Web Interface
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/path/to/fawkes-web
+ExecStart=/usr/bin/python3 run_server.py
+Restart=always
+RestartSec=10
+Environment=PYTHONPATH=/path/to/fawkes-web
+
+[Install]
+WantedBy=multi-user.target

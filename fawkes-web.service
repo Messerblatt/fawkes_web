@@ -1,0 +1,21 @@
+[Unit]
+Description=Fawkes Web Application
+After=network.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/fawkes-web
+Environment="PATH=/var/www/fawkes-web/venv/bin"
+Environment="SECRET_KEY=your-secret-key-here"
+ExecStart=/var/www/fawkes-web/venv/bin/gunicorn --config gunicorn_config.py wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
