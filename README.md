@@ -10,7 +10,7 @@ Fawkes is a privacy tool that applies imperceptible modifications to images to p
 
 This repo contains a Flask wrapper for just that. The Web Interface provides an easy-to-use graphical interface for the Fawkes image cloaking system. Upload your images through a simple drag-and-drop interface and apply privacy-preserving modifications to protect against unauthorized facial recognition.
 
-**Tested on Python3.8.20** ("Why such old Python version?!" -  Because the models that powers Fawkes was trained using tensorflow 2.10 back in 2019. Using up-to-date python requires up-to-date tensorflow, which requires a different structure of the underlying .h5 model. I'm about to figure this out) 
+**Tested on Python3.8.20** ("Why such old Python version?!" -  Because the models that powers Fawkes was trained using tensorflow 2.4.1 back in 2019. Using up-to-date python requires up-to-date tensorflow, which requires a different structure of the underlying .h5 model. I'm about to figure this out) 
 
 ## Pre-Installation
 
