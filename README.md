@@ -1,6 +1,6 @@
 # Fawkes Web Interface
 
-Flask wrapper for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-preserving tool that protects images against facial recognition systems.
+A Flask-based web interface for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-preserving tool that protects images against facial recognition systems.
 
 ## Overview
 
@@ -8,7 +8,7 @@ Flask wrapper for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-pr
 
 Fawkes is a privacy tool that applies imperceptible modifications to images to protect them against unauthorized facial recognition systems. It "cloaks" faces in images, making them unrecognizable to facial recognition models while remaining visually unchanged to human observers.
 
-This repo contains a Flask wrapper for just that. The Web Interface provides an easy-to-use graphical interface for the Fawkes image cloaking system. Upload your images through a simple drag-and-drop interface and apply privacy-preserving modifications to protect against unauthorized facial recognition.
+This repo contains a web interface for just that, using Flask and gunicorn. The web interface provides an easy-to-use graphical interface for the Fawkes image cloaking system. Upload your images through a simple drag-and-drop interface and apply privacy-preserving modifications to protect against unauthorized facial recognition.
 
 **Tested on Python3.8.20** ("Why such old Python version?!" -  Because the models that powers Fawkes was trained using tensorflow 2.4.1 back in 2019. Using up-to-date python requires up-to-date tensorflow, which requires a different structure of the underlying .h5 model. I'm about to figure this out) 
 
