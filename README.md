@@ -1,60 +1,48 @@
 # Fawkes Web Interface
 
-A modern web application for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-preserving tool that protects images against facial recognition systems.
+Flask wrapper for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-preserving tool that protects images against facial recognition systems.
+
 
 ## Overview
 
-Fawkes Web Interface provides an easy-to-use graphical interface for the Fawkes image cloaking system. Upload your images through a simple drag-and-drop interface and apply privacy-preserving modifications to protect against unauthorized facial recognition.
 
-## Features
+![Demonstrating Fawkes on an Image of Obama](/images/obama_cloakes.png)
 
-- **Modern UI**: Clean, minimal design with drag-and-drop image upload
-- **Real-time Processing**: Live console output showing cloaking progress
-- **Multiple Cloaking Modes**: Low, Mid, and High intensity options
-- **GPU Detection**: Automatically detects GPU availability and adjusts available modes
-- **Instant Download**: Download cloaked images immediately after processing
-- **WebSocket Updates**: Real-time status updates during the cloaking process
-
-## What is Fawkes?
 
 Fawkes is a privacy tool that applies imperceptible modifications to images to protect them against unauthorized facial recognition systems. It "cloaks" faces in images, making them unrecognizable to facial recognition models while remaining visually unchanged to human observers.
 
-## Prerequisites
+This repo contains a Flask wrapper for just that. The Web Interface provides an easy-to-use graphical interface for the Fawkes image cloaking system. Upload your images through a simple drag-and-drop interface and apply privacy-preserving modifications to protect against unauthorized facial recognition.
 
-- Python 3.7 or higher
-- Node.js and npm (for the package.json dependencies listed, though the main app is Flask-based)
-- TensorFlow 2.x
-- The original [Fawkes repository](https://github.com/Shawn-Shan/fawkes) cloned into the `fawkes/` directory
+**Tested on Python3.8.20**
 
 ## Installation
 
 ### 1. Clone this repository
 
-\`\`\`bash
-git clone <your-repo-url>
+```bash
+
+git clone https://github.com/Messerblatt/fawkes_web
 cd fawkes-web-app
-\`\`\`
+
+```
 
 ### 2. Install Python dependencies
 
-\`\`\`bash
+```bash
+
 pip install -r requirements.txt
-\`\`\`
+
+```
+
+Keep in mind that the use of a virtual environment is strongly advised.
 
 ### 3. Set up Fawkes
 
 Clone the original Fawkes repository into the project:
 
-\`\`\`bash
-git clone https://github.com/Shawn-Shan/fawkes.git
-cd fawkes
-pip install -e .
-cd ..
-\`\`\`
-
 Ensure the following file structure:
 
-\`\`\`
+```
 .
 ├── app.py
 ├── fawkes/
@@ -68,16 +56,8 @@ Ensure the following file structure:
 │   └── index.html
 ├── requirements.txt
 └── README.md
-\`\`\`
 
-### 4. Verify installation
-
-Check that all components are properly installed:
-
-\`\`\`bash
-python -c "import tensorflow as tf; print(f'TensorFlow: {tf.__version__}')"
-python -c "from flask_socketio import SocketIO; print('Flask-SocketIO: OK')"
-\`\`\`
+```
 
 ## Usage
 
@@ -85,15 +65,19 @@ python -c "from flask_socketio import SocketIO; print('Flask-SocketIO: OK')"
 
 Run the Flask application:
 
-\`\`\`bash
+```bash
+
 python app.py
-\`\`\`
+
+```
 
 Or use the provided run script:
 
-\`\`\`bash
+```bash
+
 python run_server.py
-\`\`\`
+
+```
 
 The server will start on `http://localhost:5000`
 
@@ -158,109 +142,15 @@ To enable GPU support, ensure you have:
 - Appropriate CUDA drivers
 - TensorFlow with GPU support: `pip install tensorflow-gpu`
 
-## File Structure
-
-\`\`\`
-fawkes-web-app/
-├── app.py                 # Main Flask application
-├── run_server.py         # Server startup script
-├── requirements.txt      # Python dependencies
-├── package.json          # Node.js dependencies (for reference)
-├── templates/
-│   └── index.html       # Web interface
-├── fawkes/              # Fawkes library (clone from GitHub)
-│   ├── protection.py    # Main cloaking script
-│   └── ...
-├── images/              # Upload directory (auto-created)
-└── scripts/
-    └── setup.py         # Setup helper script
-\`\`\`
-
 ## Output Files
 
-Cloaked images are saved in the `images/` directory with the following naming convention:
-
-\`\`\`
-original_filename.jpg → original_filename_cloaked.png
-\`\`\`
-
-All cloaked images are converted to PNG format to preserve quality.
-
-## Troubleshooting
-
-### "Fawkes directory not found"
-Ensure the Fawkes repository is cloned into the `fawkes/` directory at the project root.
-
-### "protection.py not found"
-Verify that `fawkes/protection.py` exists and is accessible.
-
-### GPU not detected
-Check your TensorFlow installation:
-\`\`\`bash
-python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
-\`\`\`
-
-### Port already in use
-Change the port in `app.py`:
-\`\`\`python
-socketio.run(app, debug=True, host='0.0.0.0', port=5001)  # Change 5000 to another port
-\`\`\`
-
-### Processing fails
-Check the console output for detailed error messages. Common issues:
-- Insufficient memory
-- Invalid image format
-- Missing dependencies
-
-## Deployment
-
-### Production deployment
-
-For production use, disable debug mode and use a production WSGI server:
-
-\`\`\`bash
-pip install gunicorn
-gunicorn --worker-class eventlet -w 1 app:app --bind 0.0.0.0:5000
-\`\`\`
-
-### Using systemd (Linux)
-
-Edit the provided `file-server.service` file:
-
-\`\`\`ini
-[Service]
-WorkingDirectory=/path/to/fawkes-web
-ExecStart=/usr/bin/python3 run_server.py
-\`\`\`
-
-Then enable and start:
-
-\`\`\`bash
-sudo cp file-server.service /etc/systemd/system/fawkes-web.service
-sudo systemctl enable fawkes-web
-sudo systemctl start fawkes-web
-\`\`\`
-
-## Security Considerations
-
-- The application clears the `images/` directory before each upload
-- Uploaded images are processed server-side and should be deleted after use
-- For production deployment, implement proper authentication and rate limiting
-- Consider using HTTPS for all connections
+Adhering to Fawke's principles of privacy, the app will purge every image from the server as soon as the cloaking is finished.
 
 ## Performance Tips
 
 1. **Use GPU**: Processing is significantly faster with GPU support
 2. **Image size**: Smaller images process faster; consider resizing large images
 3. **Mode selection**: Use Low mode for testing, High mode for final images
-4. **Batch processing**: For multiple images, process them sequentially
-
-## Contributing
-
-Contributions are welcome! Please ensure:
-- Code follows the existing style
-- All features are tested
-- Documentation is updated
 
 ## Credits
 
@@ -270,12 +160,6 @@ Contributions are welcome! Please ensure:
 ## License
 
 This web interface is provided as-is. Please refer to the [original Fawkes repository](https://github.com/Shawn-Shan/fawkes) for licensing information regarding the Fawkes algorithm and implementation.
-
-## Support
-
-For issues related to:
-- **Web interface**: Open an issue in this repository
-- **Fawkes algorithm**: Refer to the [original Fawkes repository](https://github.com/Shawn-Shan/fawkes)
 
 ## Disclaimer
 
