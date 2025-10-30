@@ -2,22 +2,23 @@
 
 Flask wrapper for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-preserving tool that protects images against facial recognition systems.
 
-
 ## Overview
 
-
 ![Demonstrating Fawkes on an Image of Obama](images/obama_cloakes.png)
-
 
 Fawkes is a privacy tool that applies imperceptible modifications to images to protect them against unauthorized facial recognition systems. It "cloaks" faces in images, making them unrecognizable to facial recognition models while remaining visually unchanged to human observers.
 
 This repo contains a Flask wrapper for just that. The Web Interface provides an easy-to-use graphical interface for the Fawkes image cloaking system. Upload your images through a simple drag-and-drop interface and apply privacy-preserving modifications to protect against unauthorized facial recognition.
 
-**Tested on Python3.8.20**
+**Tested on Python3.8.20** ("Why such old Python version?!" -  Because the models that powers Fawkes was trained using tensorflow 2.10 back in 2019. Using up-to-date python requires up-to-date tensorflow, which requires a different structure of the underlying .h5 model. I'm about to figure this out) 
 
-## Installation
+## Pre-Installation
+
+`git clone`ing this repo requires `git lfs` (specifically, the `.h5` file in `./fawkes/models/` is ~150MB), so make sure to `sudo apt install git-lfs` and verify installation success. 
 
 ### 1. Clone this repository
+
+With `git lfs` installed, do the usual:
 
 ```bash
 
@@ -34,34 +35,10 @@ pip install -r requirements.txt
 
 ```
 
-Keep in mind that the use of a virtual environment is strongly advised.
+Keep in mind: Using a virtual environment is strongly advised.
 
-### 3. Set up Fawkes
 
-Clone the original Fawkes repository into the project:
-
-Ensure the following file structure:
-
-```
-.
-├── app.py
-├── fawkes/
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── protection.py
-│   ├── utils.py
-│   └── ...
-├── images/
-├── templates/
-│   └── index.html
-├── requirements.txt
-└── README.md
-
-```
-
-## Usage
-
-### Starting the server
+## 3. Usage (Starting the server)
 
 Run the Flask application:
 
@@ -81,7 +58,10 @@ python run_server.py
 
 The server will start on `http://localhost:5000`
 
-### Using the web interface
+The app gets served using gunicorn, so you want to use a reverse-proxy like nginx and maybe a process manager.
+
+
+## Using the web interface
 
 1. **Upload an image**: Drag and drop an image or click "Select Image"
 2. **Choose cloaking mode**:
