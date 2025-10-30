@@ -6,7 +6,7 @@ Flask wrapper for [Fawkes](https://github.com/Shawn-Shan/fawkes), the privacy-pr
 ## Overview
 
 
-![Demonstrating Fawkes on an Image of Obama](/images/obama_cloakes.png)
+![Demonstrating Fawkes on an Image of Obama](images/obama_cloakes.png)
 
 
 Fawkes is a privacy tool that applies imperceptible modifications to images to protect them against unauthorized facial recognition systems. It "cloaks" faces in images, making them unrecognizable to facial recognition models while remaining visually unchanged to human observers.
