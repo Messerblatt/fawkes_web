@@ -6,10 +6,10 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #333;
   min-height: 100vh;
   padding: 40px 20px;
-  color: #333;
+  color: #ddd;
 }
 
 .container {
@@ -38,7 +38,6 @@ body {
 
 .card {
   background: white;
-  border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   padding: 40px;
   margin-bottom: 30px;
@@ -46,7 +45,6 @@ body {
 
 .upload-area {
   border: 2px dashed #d1d5db;
-  border-radius: 12px;
   padding: 60px 20px;
   text-align: center;
   transition: all 0.3s ease;
@@ -78,7 +76,6 @@ body {
   color: white;
   border: none;
   padding: 12px 30px;
-  border-radius: 8px;
   font-size: 1em;
   font-weight: 500;
   cursor: pointer;
@@ -102,7 +99,6 @@ body {
   padding: 16px;
   background: #f0fdf4;
   border: 1px solid #86efac;
-  border-radius: 8px;
   margin-top: 20px;
 }
 
@@ -139,7 +135,6 @@ body {
   color: #6b7280;
   border: 2px solid transparent;
   padding: 16px;
-  border-radius: 10px;
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
@@ -167,7 +162,6 @@ body {
 .gpu-badge {
   display: inline-block;
   padding: 6px 12px;
-  border-radius: 6px;
   font-size: 0.85em;
   font-weight: 600;
   margin-bottom: 20px;
@@ -189,7 +183,6 @@ body {
   color: white;
   border: none;
   padding: 18px;
-  border-radius: 10px;
   font-size: 1.1em;
   font-weight: 600;
   cursor: pointer;
@@ -211,7 +204,6 @@ body {
 
 .console {
   background: #1f2937;
-  border-radius: 12px;
   padding: 24px;
   min-height: 200px;
   max-height: 300px;
@@ -233,7 +225,6 @@ body {
   justify-content: space-between;
   padding: 20px;
   background: #f9fafb;
-  border-radius: 12px;
 }
 
 .status {
@@ -246,7 +237,6 @@ body {
 .status-indicator {
   width: 12px;
   height: 12px;
-  border-radius: 50%;
   background: #10b981;
 }
 
@@ -274,7 +264,6 @@ body {
   color: white;
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -298,12 +287,10 @@ body {
 
 ::-webkit-scrollbar-track {
   background: #374151;
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #6b7280;
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
