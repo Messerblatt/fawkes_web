@@ -23,7 +23,7 @@ With `git lfs` installed, do the usual:
 ```bash
 
 git clone https://github.com/Messerblatt/fawkes_web
-cd fawkes-web-app
+cd fawkes_web
 
 ```
 
