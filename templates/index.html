@@ -5,64 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fawkes - Privacy-preserving image cloaking against facial recognition">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="color-scheme" content="dark light">
     <title>Fawkes - Image Cloaking</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <main class="container">
+        <header class="header">
             <h1>Fawkes</h1>
-            <p>Privacy-preserving image cloaking against facial recognition</p>
-            <p>Note that in CPU mode, cloaking a single image can take up to several minutes.</p>
-        </div>
+            <p class="tagline">Cloak your photos against facial recognition</p>
+            <p class="hint">In CPU mode, cloaking a single image can take several minutes. You can close this page: the result will be waiting in your history below.</p>
+        </header>
 
-        <div class="card">
-            {% if gpu_available %}
-                <span class="gpu-badge gpu-available">GPU Available</span>
-            {% else %}
-                <span class="gpu-badge gpu-unavailable">CPU Mode - High/Mid disabled</span>
-            {% endif %}
+        <section class="card">
+            <div class="card-head">
+                <h2 class="section-title">New image</h2>
+                {% if gpu_available %}
+                    <span class="gpu-badge gpu-available">GPU available</span>
+                {% else %}
+                    <span class="gpu-badge gpu-unavailable">CPU mode · Mid/High are much slower</span>
+                {% endif %}
+            </div>
 
-            <div class="upload-area" id="dropZone">
-                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            <div class="upload-area" id="dropZone" tabindex="0" role="button" aria-label="Select an image">
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
-                <p class="upload-text">Drop your image here or click to browse</p>
-                <button class="upload-btn" id="uploadBtn" type="button">Select Image</button>
+                <p class="upload-text">Drop an image here, paste it (Ctrl/⌘+V) or click to browse</p>
+                <p class="upload-sub">PNG, JPG, GIF, BMP · max 16 MB</p>
+                <button class="upload-btn" id="uploadBtn" type="button">Select image</button>
                 <input type="file" id="fileInput" class="file-input" accept="image/png,image/jpeg,image/jpg,image/gif,image/bmp">
             </div>
 
             <div class="uploaded-file" id="uploadedFile">
+                <img id="uploadThumb" class="uploaded-thumb" alt="">
                 <span class="uploaded-file-name" id="fileName"></span>
             </div>
 
             <div class="mode-section">
-                <h3 class="section-title">Cloaking Mode</h3>
+                <h3 class="section-subtitle">Cloaking mode</h3>
                 <div class="mode-buttons">
                     <button class="mode-btn active" data-mode="low">Low</button>
-                    <button class="mode-btn" data-mode="mid" {% if not gpu_available %}disabled{% endif %}>Mid</button>
-                    <button class="mode-btn" data-mode="high" {% if not gpu_available %}disabled{% endif %}>High</button>
+                    <button class="mode-btn" data-mode="mid">Mid</button>
+                    <button class="mode-btn" data-mode="high">High</button>
                 </div>
-                <button class="cloak-btn" id="cloakBtn" disabled>Start Cloaking</button>
-            </div>
-        </div>
+                <p class="mode-hint" id="modeHint" data-gpu="{{ 'true' if gpu_available else 'false' }}"></p>
 
-        <div class="card">
-            <h3 class="section-title">Console Output</h3>
+                <label class="notify-row" for="notifyToggle">
+                    <input type="checkbox" id="notifyToggle">
+                    <span class="switch" aria-hidden="true"></span>
+                    <span class="notify-text">Notify me when it's done
+                        <small id="notifyHint">Browser notification, works while this page stays open in a tab.</small>
+                    </span>
+                </label>
+
+                <button class="cloak-btn" id="cloakBtn" disabled>Start cloaking</button>
+            </div>
+
+            <div class="status-bar">
+                <div class="status">
+                    <span class="status-indicator" id="statusIndicator"></span>
+                    <span id="statusText">Ready</span>
+                </div>
+                <a href="#" class="download-btn hidden" id="downloadBtn">Download</a>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-head">
+                <h2 class="section-title">History</h2>
+                <span class="retention-note">Kept for {{ '%g' % retention_hours }} h, then securely erased</span>
+            </div>
+            <ul class="history" id="historyList"></ul>
+            <p class="history-empty" id="historyEmpty">No cloaked images yet.</p>
+        </section>
+
+        <details class="card console-card">
+            <summary class="section-title">Console output</summary>
             <div class="console">
                 <div class="console-output" id="consoleOutput">Ready to process images...</div>
             </div>
-        </div>
+        </details>
+    </main>
 
-        <div class="status-bar">
-            <div class="status">
-                <span class="status-indicator" id="statusIndicator"></span>
-                <span id="statusText">Ready</span>
+    <dialog id="confirmDialog" class="dialog">
+        <form method="dialog">
+            <h3>Delete this image?</h3>
+            <p id="confirmText"></p>
+            <p class="dialog-sub">The file will be overwritten and permanently erased. This cannot be undone.</p>
+            <div class="dialog-actions">
+                <button value="cancel" class="btn-ghost">Cancel</button>
+                <button value="confirm" class="btn-danger" id="confirmOk">Delete</button>
             </div>
-            <a href="/download" class="download-btn hidden" id="downloadBtn">Download Cloaked Image</a>
-        </div>
-    </div>
+        </form>
+    </dialog>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

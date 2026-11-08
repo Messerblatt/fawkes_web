@@ -144,3 +144,12 @@ This web interface is provided as-is. Please refer to the [original Fawkes repos
 ## Disclaimer
 
 This tool is intended for privacy protection and educational purposes. Users are responsible for ensuring their use complies with applicable laws and regulations. The effectiveness of Fawkes may vary depending on the facial recognition system being protected against.
+
+## History, retention and notifications (local additions)
+
+- Every cloaked image is stored in a private per-browser folder (`images/jobs/<client_id>/<job_id>/`, the client id is a random HttpOnly cookie) and listed in the **History** card with preview, file name, remaining time, Download and Delete (with confirmation).
+- Images expire after `FAWKES_RETENTION_HOURS` hours (default `12`, any positive number, e.g. `0.5`) and are then erased: overwritten with random data, fsynced and unlinked. The original (uncloaked) upload is erased as soon as cloaking finishes.
+- Processing continues if you close the page; reopen it and the result is in the History.
+- "Notify me when it's done" uses the browser Notification API (works while the page stays open in a tab, also in background).
+- Paste an image from the clipboard (Ctrl/Cmd+V) to upload it.
+- Mid/High are CPU-capped (default 20% of the server, `FAWKES_CPU_LIMIT_PERCENT`, `0` = off) via a systemd cgroup scope and `nice 19`; memory cap `FAWKES_ADVANCED_MEMORY_MAX` (default `1500M`).
