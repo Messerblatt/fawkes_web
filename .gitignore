@@ -1,2 +1,5 @@
 fawkes/images/*
 SECURITY.md
+
+# per-browser job store (cloaked images, auto-deleted)
+images/jobs/
